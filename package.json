@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
+    "test:staged": "npm test --findRelatedTests",
     "prepare": "husky install"
   },
   "repository": {
