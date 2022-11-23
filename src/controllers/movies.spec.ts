@@ -28,4 +28,11 @@ describe('movies controller', () => {
     const httpResponse = await sut.handle(httpRequest)
     expect(httpResponse.statusCode).toBe(200)
   })
+
+  test('should return 200 if not params provided', async () => {
+    const { sut } = makeSut()
+    const httpRequest = { }
+    const httpResponse = await sut.handle(httpRequest)
+    expect(httpResponse.statusCode).toBe(200)
+  })
 })
