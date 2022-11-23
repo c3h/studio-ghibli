@@ -1,4 +1,4 @@
-import { InvalidParamError } from '../errors'
+import { InvalidParamError, ServerError } from '../errors'
 import { MoviesController } from './movies'
 import { MoviesService, Offset, IMoviesModel } from './movies-protocols'
 
@@ -35,6 +35,18 @@ describe('movies controller', () => {
       moviesService
     }
   }
+
+  test('should return 500 if movies service throws', async () => {
+    const { sut, moviesService } = makeSut()
+    jest.spyOn(moviesService, 'get').mockImplementationOnce(async () => {
+      return new Promise((resolve, reject) => reject(new Error()))
+    })
+    const httpRequest = { }
+    const httpResponse = await sut.handle(httpRequest)
+    expect(httpResponse.statusCode).toBe(500)
+    expect(httpResponse.body).toEqual(new ServerError())
+  })
+
   test('should return 400 if invalid params provided', async () => {
     const { sut } = makeSut()
     const httpRequest = {
