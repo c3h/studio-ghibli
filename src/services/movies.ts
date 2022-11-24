@@ -1,16 +1,14 @@
-import { Service } from '../protocols/service'
-import { IMoviesModel } from '../usecases'
+import { IMoviesModel, Model, Service } from '../usecases'
 
 export class MoviesService implements Service {
+  private readonly getMovies
+
+  constructor (movies: Model) {
+    this.getMovies = movies
+  }
+
   async get (offset?: number): Promise<IMoviesModel[]> {
-    return [{
-      id: 'valid_id',
-      offset: 'valid_offset',
-      title: 'valid_title',
-      original_title: 'valid_original_title',
-      description: 'valid_description',
-      release_date: 'valid_release_date',
-      pointing: 'valid_pointing'
-    }]
+    const getMovies = await this.getMovies.get(offset)
+    return getMovies
   }
 }
