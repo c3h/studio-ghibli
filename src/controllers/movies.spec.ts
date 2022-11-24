@@ -1,12 +1,12 @@
 import { InvalidParamError, ServerError } from '../errors'
 import { MoviesController } from './movies'
-import { MoviesService, Offset, IMoviesModel } from './movies-protocols'
+import { Service, IMoviesModel } from './movies-protocols'
 
 describe('movies controller', () => {
-  const makeMoviesService = (): MoviesService => {
-    class MoviesServiceStub implements MoviesService {
-      async get (offset?: Offset): Promise<IMoviesModel[]> {
-        const fakeAccount = [{
+  const makeMoviesService = (): Service => {
+    class MoviesServiceStub implements Service {
+      async get (offset?: number): Promise<IMoviesModel[]> {
+        const fakeMovies = [{
           id: 'valid_id',
           offset: 'valid_offset',
           title: 'valid_title',
@@ -15,7 +15,7 @@ describe('movies controller', () => {
           release_date: 'valid_release_date',
           pointing: 'valid_pointing'
         }]
-        return new Promise(resolve => resolve(fakeAccount))
+        return new Promise(resolve => resolve(fakeMovies))
       }
     }
 
@@ -24,7 +24,7 @@ describe('movies controller', () => {
 
   interface SutTypes {
     sut: MoviesController
-    moviesServiceStub: MoviesService
+    moviesServiceStub: Service
   }
 
   const makeSut = (): SutTypes => {
@@ -91,7 +91,7 @@ describe('movies controller', () => {
     }])
   })
 
-  test('should call MoviesService.get', async () => {
+  test('should call Service.get', async () => {
     const { sut, moviesServiceStub } = makeSut()
     const addSpy = jest.spyOn(moviesServiceStub, 'get')
     const httpRequest = { }
@@ -99,7 +99,7 @@ describe('movies controller', () => {
     expect(addSpy).toHaveBeenCalled()
   })
 
-  test('should call MoviesService.get with correct value', async () => {
+  test('should call Service.get with correct value', async () => {
     const { sut, moviesServiceStub } = makeSut()
     const addSpy = jest.spyOn(moviesServiceStub, 'get')
     const httpRequest = { params: 1 }

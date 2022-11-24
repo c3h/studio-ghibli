@@ -1,2 +1,2 @@
-export * from './movies-model'
-export * from './movies-service'
+export * from './model'
+export * from './service'
