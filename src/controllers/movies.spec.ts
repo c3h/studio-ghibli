@@ -24,21 +24,21 @@ describe('movies controller', () => {
 
   interface SutTypes {
     sut: MoviesController
-    moviesService: MoviesService
+    moviesServiceStub: MoviesService
   }
 
   const makeSut = (): SutTypes => {
-    const moviesService = makeMoviesService()
-    const sut = new MoviesController(moviesService)
+    const moviesServiceStub = makeMoviesService()
+    const sut = new MoviesController(moviesServiceStub)
     return {
       sut,
-      moviesService
+      moviesServiceStub
     }
   }
 
   test('should return 500 if movies service throws', async () => {
-    const { sut, moviesService } = makeSut()
-    jest.spyOn(moviesService, 'get').mockImplementationOnce(async () => {
+    const { sut, moviesServiceStub } = makeSut()
+    jest.spyOn(moviesServiceStub, 'get').mockImplementationOnce(async () => {
       return new Promise((resolve, reject) => reject(new Error()))
     })
     const httpRequest = { }
@@ -89,5 +89,21 @@ describe('movies controller', () => {
       release_date: 'valid_release_date',
       pointing: 'valid_pointing'
     }])
+  })
+
+  test('should call MoviesService.get', async () => {
+    const { sut, moviesServiceStub } = makeSut()
+    const addSpy = jest.spyOn(moviesServiceStub, 'get')
+    const httpRequest = { }
+    await sut.handle(httpRequest)
+    expect(addSpy).toHaveBeenCalled()
+  })
+
+  test('should call MoviesService.get with correct value', async () => {
+    const { sut, moviesServiceStub } = makeSut()
+    const addSpy = jest.spyOn(moviesServiceStub, 'get')
+    const httpRequest = { params: 1 }
+    await sut.handle(httpRequest)
+    expect(addSpy).toHaveBeenCalledWith(httpRequest.params)
   })
 })
