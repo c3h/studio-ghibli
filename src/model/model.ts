@@ -1,15 +1,16 @@
 import { IMoviesModel, Model } from '../usecases'
+import { Pool } from 'mysql2/promise'
 
 export class MoviesModel implements Model {
-  async get (offset?: number): Promise<IMoviesModel[]> {
-    return [{
-      id: 'valid_id',
-      offset: 'valid_offset',
-      title: 'valid_title',
-      original_title: 'valid_original_title',
-      description: 'valid_description',
-      release_date: 'valid_release_date',
-      pointing: 'valid_pointing'
-    }]
+  private readonly connection
+
+  constructor (connection: Pool) {
+    this.connection = connection
+  }
+
+  async get (offset: number): Promise<IMoviesModel[]> {
+    const [rows] = this.connection.execute('SELECT * FROM ghibli.movies LIMIT 20 OFFSET ?', [offset])
+    const movies = rows as IMoviesModel[]
+    return movies
   }
 }
