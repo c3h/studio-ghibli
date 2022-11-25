@@ -8,7 +8,7 @@ export class MoviesService implements Service {
   }
 
   async get (offset?: number): Promise<IMoviesModel[]> {
-    const getMovies = await this.getMovies.get(offset)
+    const getMovies = await this.getMovies.get(!offset || offset < 1 ? 1 : offset)
     return getMovies
   }
 }

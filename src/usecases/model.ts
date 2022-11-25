@@ -9,5 +9,5 @@ export interface IMoviesModel {
 }
 
 export interface Model {
-  get: (offset?: number) => Promise<IMoviesModel[]>
+  get: (offset: number) => Promise<IMoviesModel[]>
 }
