@@ -58,4 +58,12 @@ describe('movies service', () => {
     await sut.get()
     expect(addSpy).toHaveBeenCalled()
   })
+
+  test('should call moviesModel with correct value', async () => {
+    const { sut, moviesModelStub } = makeSut()
+    const addSpy = jest.spyOn(moviesModelStub, 'get')
+    const params = 1
+    await sut.get(params)
+    expect(addSpy).toHaveBeenCalledWith(params)
+  })
 })
