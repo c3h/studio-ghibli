@@ -9,7 +9,7 @@ export class MoviesModel implements Model {
   }
 
   async get (offset: number): Promise<IMoviesModel[]> {
-    const [rows] = this.connection.execute('SELECT * FROM ghibli.movies LIMIT 20 OFFSET ?', [offset])
+    const [rows] = this.connection.execute('SELECT * FROM ghibli.movies ORDER BY original_title ASC LIMIT 20 OFFSET ?', [offset])
     const movies = rows as IMoviesModel[]
     return movies
   }
