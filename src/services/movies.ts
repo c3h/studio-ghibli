@@ -11,4 +11,6 @@ export class MoviesService implements Service {
     const getMovies = await this.getMovies.get(!offset || offset < 1 ? 1 : offset)
     return getMovies
   }
+
+  async getAPI (): Promise<void> {}
 }
