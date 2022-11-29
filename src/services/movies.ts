@@ -12,5 +12,7 @@ export class MoviesService implements Service {
     return getMovies
   }
 
-  async getAPI (): Promise<void> {}
+  async getAPI (): Promise<void> {
+    await this.getMovies.getAPI()
+  }
 }

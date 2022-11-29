@@ -13,4 +13,6 @@ export class MoviesModel implements Model {
     const movies = rows as IMoviesModel[]
     return movies
   }
+
+  async getAPI (): Promise<void> {}
 }
