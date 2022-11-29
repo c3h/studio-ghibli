@@ -7,7 +7,6 @@ describe('movies service', () => {
       async get (offset?: number): Promise<IMoviesModel[]> {
         const fakeMovies = [{
           id: 'valid_id',
-          offset: 'valid_offset',
           title: 'valid_title',
           original_title: 'valid_original_title',
           description: 'valid_description',
@@ -43,7 +42,6 @@ describe('movies service', () => {
     const result = await sut.get(offset.params)
     expect(result).toEqual([{
       id: 'valid_id',
-      offset: 'valid_offset',
       title: 'valid_title',
       original_title: 'valid_original_title',
       description: 'valid_description',
