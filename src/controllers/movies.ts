@@ -9,12 +9,14 @@ export class MoviesController implements Controller {
     this.getMovies = movies
   }
 
-  async handle (request: HttpRequest): Promise<HttpResponse> {
+  async movies (request: HttpRequest): Promise<HttpResponse> {
     try {
-      if (request.params && typeof request.params !== 'number') {
+      if (
+        request.params.offset &&
+        parseInt(request.params.offset, 10).toString() !== request.params.offset) {
         return badRequest(new InvalidParamError('params'))
       }
-      const getMovies = await this.getMovies.get(request.params)
+      const getMovies = await this.getMovies.get(parseInt((request.params.offset || '').trim(), 10))
       return ok(getMovies)
     } catch (e) {
       return serverError()
