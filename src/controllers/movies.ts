@@ -24,7 +24,11 @@ export class MoviesController implements Controller {
   }
 
   async ghibliApi (): Promise<HttpResponse> {
-    await this.getMovies.getAPI()
-    return ok('success')
+    try {
+      await this.getMovies.getAPI()
+      return ok('success')
+    } catch (e) {
+      return serverError()
+    }
   }
 }
