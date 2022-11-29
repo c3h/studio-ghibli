@@ -15,6 +15,8 @@ describe('movies service', () => {
         }]
         return new Promise(resolve => resolve(fakeMovies))
       }
+
+      async getAPI (): Promise<void> {}
     }
 
     return new MoviesModelStub()
@@ -63,5 +65,12 @@ describe('movies service', () => {
     const params = 1
     await sut.get(params)
     expect(addSpy).toHaveBeenCalledWith(params)
+  })
+
+  test('should call moviesModel.getAPI', async () => {
+    const { sut, moviesModelStub } = makeSut()
+    const addSpy = jest.spyOn(moviesModelStub, 'getAPI')
+    await sut.getAPI()
+    expect(addSpy).toHaveBeenCalled()
   })
 })
