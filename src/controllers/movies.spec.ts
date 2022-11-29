@@ -115,4 +115,11 @@ describe('movies controller', () => {
     await sut.movies(httpRequest)
     expect(addSpy).toHaveBeenCalledWith(parseInt((httpRequest.params.offset || '').trim(), 10))
   })
+
+  test('should return 200 if success data API Ghibli', async () => {
+    const { sut } = makeSut()
+    const httpResponse = await sut.ghibliApi()
+    expect(httpResponse.statusCode).toBe(200)
+    expect(httpResponse.body).toEqual('ok')
+  })
 })
