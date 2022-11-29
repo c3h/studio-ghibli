@@ -1,3 +1,4 @@
+import cors from 'cors'
 import express from 'express'
 import movies from './routes/movies'
 
@@ -20,6 +21,7 @@ export default class App {
 
     this.app.use(accessControl)
     this.app.use(express.json())
+    this.app.use(cors())
   }
 
   private routes (): void {
