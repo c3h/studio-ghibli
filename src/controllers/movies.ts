@@ -22,4 +22,8 @@ export class MoviesController implements Controller {
       return serverError()
     }
   }
+
+  async ghibliApi (): Promise<HttpResponse> {
+    return ok('ok')
+  }
 }
