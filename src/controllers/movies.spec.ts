@@ -16,6 +16,8 @@ describe('movies controller', () => {
         }]
         return new Promise(resolve => resolve(fakeMovies))
       }
+
+      async getAPI (): Promise<void> {}
     }
 
     return new MoviesServiceStub()
@@ -120,6 +122,13 @@ describe('movies controller', () => {
     const { sut } = makeSut()
     const httpResponse = await sut.ghibliApi()
     expect(httpResponse.statusCode).toBe(200)
-    expect(httpResponse.body).toEqual('ok')
+    expect(httpResponse.body).toEqual('success')
+  })
+
+  test('should call Service.getAPI', async () => {
+    const { sut, moviesServiceStub } = makeSut()
+    const addSpy = jest.spyOn(moviesServiceStub, 'getAPI')
+    await sut.ghibliApi()
+    expect(addSpy).toHaveBeenCalled()
   })
 })
