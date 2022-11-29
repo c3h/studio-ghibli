@@ -1,4 +1,4 @@
-import { IMoviesModel, Model } from '../usecases'
+import { IMoviesModel, Model } from '../protocols'
 import connection from './connection'
 
 export class MoviesModel implements Model {

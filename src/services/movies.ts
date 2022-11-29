@@ -1,4 +1,4 @@
-import { IMoviesModel, Model, Service } from '../usecases'
+import { IMoviesModel, Model, Service } from '../protocols'
 
 export class MoviesService implements Service {
   private readonly getMovies
