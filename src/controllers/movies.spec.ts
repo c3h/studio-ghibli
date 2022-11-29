@@ -131,4 +131,14 @@ describe('movies controller', () => {
     await sut.ghibliApi()
     expect(addSpy).toHaveBeenCalled()
   })
+
+  test('should return 500 if service.getAPI throws', async () => {
+    const { sut, moviesServiceStub } = makeSut()
+    jest.spyOn(moviesServiceStub, 'getAPI').mockImplementationOnce(async () => {
+      return new Promise((resolve, reject) => reject(new Error()))
+    })
+    const httpResponse = await sut.ghibliApi()
+    expect(httpResponse.statusCode).toBe(500)
+    expect(httpResponse.body).toEqual(new ServerError())
+  })
 })
