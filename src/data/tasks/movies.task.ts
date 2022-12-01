@@ -1,6 +1,6 @@
 import { Movie } from '$/domain';
 import { IListMovieTask, IPopulateMovieTask } from '$/presentation/tasks';
-import { MoviesModel } from '../../model/movies';
+import { MoviesModel } from '../../infra/mysql/repos/movies.repo';
 import { IBulkAddMovieRepo, IListMovieRepo, IPopulateMovieRepo } from '../repos';
 
 export class MoviesService implements IListMovieTask, IPopulateMovieTask {
