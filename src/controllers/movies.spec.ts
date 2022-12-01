@@ -1,11 +1,12 @@
+import { Movie } from '$/domain';
 import { InvalidParamError, ServerError } from '../errors';
 import { MoviesController } from './movies';
-import { IMoviesModel, Service } from './movies.protocols';
+import { Service } from './movies.protocols';
 
 describe('movies controller', () => {
   const makeMoviesService = (): Service => {
     class MoviesServiceStub implements Service {
-      async get (offset?: string): Promise<IMoviesModel[]> {
+      async get (offset?: string): Promise<Movie[]> {
         const fakeMovies = [{
           id: 'valid_id',
           title: 'valid_title',

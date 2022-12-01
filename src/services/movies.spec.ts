@@ -1,9 +1,10 @@
-import { IMoviesModel, Model } from '../protocols';
+import { Movie } from '$/domain';
+import { IModel } from '../protocols';
 import { MoviesService } from './movies';
 
 describe('movies service', () => {
-  const makeMoviesModel = (): Model => {
-    class MoviesModelStub implements Model {
+  const makeMoviesModel = (): IModel => {
+    class MoviesModelStub implements IModel {
       readonly fakeMovies = [{
         id: 'valid_id',
         title: 'valid_title',
@@ -13,13 +14,13 @@ describe('movies service', () => {
         rt_score: 'valid_pointing'
       }];
 
-      async get (offset?: string): Promise<IMoviesModel[]> {
+      async get (offset?: string): Promise<Movie[]> {
         return await new Promise(resolve => resolve(this.fakeMovies));
       }
 
-      async addMovies(movies: IMoviesModel[]): Promise<void> { }
+      async addMovies(movies: Movie[]): Promise<void> { }
 
-      async getAPI(): Promise<IMoviesModel[]> {
+      async getAPI(): Promise<Movie[]> {
         return await new Promise(resolve => resolve(this.fakeMovies));
       }
     }
@@ -29,7 +30,7 @@ describe('movies service', () => {
 
   interface SutTypes {
     sut: MoviesService
-    moviesModelStub: Model
+    moviesModelStub: IModel
   }
 
   const makeSut = (): SutTypes => {

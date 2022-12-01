@@ -1,12 +1,13 @@
+import { Movie } from '$/domain';
 import { MoviesModel } from '../model/movies';
-import { IMoviesModel, Model, Service } from '../protocols';
+import { IModel, Service } from '../protocols';
 
 export class MoviesService implements Service {
   constructor(
-    readonly moviesModel: Model = new MoviesModel()
+    readonly moviesModel: IModel = new MoviesModel()
   ) {}
 
-  async get (offset: string = '0'): Promise<IMoviesModel[]> {
+  async get (offset: string = '0'): Promise<Movie[]> {
     const getMovies = await this.moviesModel.get(offset);
     return getMovies;
   }

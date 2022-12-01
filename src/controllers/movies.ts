@@ -1,14 +1,12 @@
+import { HttpRequest, HttpResponse, IListMovieCase, IPopulateMovieCase } from '$/domain';
 import { InvalidParamError } from '../errors';
 import { badRequest, noContent, ok, serverError } from '../helpers/http-helper';
 import { MoviesService } from '../services/movies';
 import {
-  Controller,
-  HttpRequest,
-  HttpResponse,
   Service
 } from './movies.protocols';
 
-export class MoviesController implements Controller {
+export class MoviesController implements IListMovieCase, IPopulateMovieCase {
   constructor(
     readonly moviesService: Service = new MoviesService()
   ) {}

@@ -1,14 +1,7 @@
-export interface IMoviesModel {
-  id: string
-  title: string
-  original_title: string
-  description: string
-  release_date: string
-  rt_score: string
-}
+import { Movie } from '$/domain';
 
-export interface Model {
-  get: (offset: string) => Promise<IMoviesModel[]>
-  getAPI: () => Promise<IMoviesModel[]>
-  addMovies: (movies: IMoviesModel[]) => Promise<void>
+export interface IModel {
+  get: (offset: string) => Promise<Movie[]>
+  getAPI: () => Promise<Movie[]>
+  addMovies: (movies: Movie[]) => Promise<void>
 }
