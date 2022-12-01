@@ -6,7 +6,7 @@ import { InvalidParamError } from '$/errors';
 import { badRequest, noContent, ok, serverError } from '../helpers';
 import { IListMovieTask, IPopulateMovieTask } from '../tasks';
 
-export class MoviesController implements IListMovieCase, IPopulateMovieCase {
+export class MovieCase implements IListMovieCase, IPopulateMovieCase {
   constructor(
     readonly moviesTask:
       IListMovieTask & IPopulateMovieTask = new MoviesTask()

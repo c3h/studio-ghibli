@@ -1,7 +1,7 @@
 import { Movie } from '$/domain';
 import { InvalidParamError, ServerError } from '$/errors';
 import { IListMovieTask, IPopulateMovieTask } from '../tasks';
-import { MoviesController } from './movies-controller.case';
+import { MovieCase } from './movies.case';
 
 describe('movies controller', () => {
   const makeMoviesTask = (): IListMovieTask & IPopulateMovieTask => {
@@ -25,13 +25,13 @@ describe('movies controller', () => {
   };
 
   interface SutTypes {
-    sut: MoviesController
+    sut: MovieCase
     movieTaskStub: IListMovieTask & IPopulateMovieTask
   }
 
   const makeSut = (): SutTypes => {
     const movieTaskStub = makeMoviesTask();
-    const sut = new MoviesController(movieTaskStub);
+    const sut = new MovieCase(movieTaskStub);
     return {
       sut,
       movieTaskStub

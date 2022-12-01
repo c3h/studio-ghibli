@@ -1,1 +1,1 @@
-export * from './movies-controller.case';
+export * from './movies.case';
