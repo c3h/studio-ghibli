@@ -1,18 +1,19 @@
 import { Movie } from '$/domain';
+import { IListMovieTask, IPopulateMovieTask } from '$/presentation/tasks';
 import { MoviesModel } from '../model/movies';
-import { IModel, Service } from '../protocols';
+import { IModel } from '../protocols';
 
-export class MoviesService implements Service {
+export class MoviesService implements IListMovieTask, IPopulateMovieTask {
   constructor(
     readonly moviesModel: IModel = new MoviesModel()
   ) {}
 
-  async get (offset: string = '0'): Promise<Movie[]> {
+  async movies (offset: string = '0'): Promise<Movie[]> {
     const getMovies = await this.moviesModel.get(offset);
     return getMovies;
   }
 
-  async getAPI (): Promise<void> {
+  async populateData (): Promise<void> {
     const result = await this.moviesModel.getAPI();
     await this.moviesModel.addMovies(result);
   }

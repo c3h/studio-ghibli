@@ -47,7 +47,7 @@ describe('movies service', () => {
     const offset = {
       params: '1'
     };
-    const result = await sut.get(offset.params);
+    const result = await sut.movies(offset.params);
     expect(result).toEqual([{
       id: 'valid_id',
       title: 'valid_title',
@@ -61,7 +61,7 @@ describe('movies service', () => {
   test('should call moviesModel', async () => {
     const { sut, moviesModelStub } = makeSut();
     const addSpy = jest.spyOn(moviesModelStub, 'get');
-    await sut.get();
+    await sut.movies();
     expect(addSpy).toHaveBeenCalled();
   });
 
@@ -69,14 +69,14 @@ describe('movies service', () => {
     const { sut, moviesModelStub } = makeSut();
     const addSpy = jest.spyOn(moviesModelStub, 'get');
     const params = '1';
-    await sut.get(params);
+    await sut.movies(params);
     expect(addSpy).toHaveBeenCalledWith(params);
   });
 
   test('should call moviesModel.getAPI', async () => {
     const { sut, moviesModelStub } = makeSut();
     const addSpy = jest.spyOn(moviesModelStub, 'getAPI');
-    await sut.getAPI();
+    await sut.populateData();
     expect(addSpy).toHaveBeenCalled();
   });
 });

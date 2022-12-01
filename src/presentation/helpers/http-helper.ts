@@ -1,5 +1,5 @@
-import { HttpResponse } from '$/domain/generic';
-import { ServerError } from '../errors';
+import { HttpResponse } from '$/domain';
+import { ServerError } from '$/errors';
 
 export const badRequest = (error: Error): HttpResponse => ({
   statusCode: 400,

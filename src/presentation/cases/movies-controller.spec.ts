@@ -1,12 +1,12 @@
 import { Movie } from '$/domain';
-import { InvalidParamError, ServerError } from '../errors';
-import { MoviesController } from './movies';
-import { Service } from './movies.protocols';
+import { InvalidParamError, ServerError } from '$/errors';
+import { IListMovieTask, IPopulateMovieTask } from '../tasks/';
+import { MoviesController } from './movies-controller.case';
 
 describe('movies controller', () => {
-  const makeMoviesService = (): Service => {
-    class MoviesServiceStub implements Service {
-      async get (offset?: string): Promise<Movie[]> {
+  const makeMoviesService = (): IListMovieTask & IPopulateMovieTask => {
+    class MoviesServiceStub implements IListMovieTask, IPopulateMovieTask {
+      async movies (offset?: string): Promise<Movie[]> {
         const fakeMovies = [{
           id: 'valid_id',
           title: 'valid_title',
@@ -18,7 +18,7 @@ describe('movies controller', () => {
         return await new Promise(resolve => resolve(fakeMovies));
       }
 
-      async getAPI (): Promise<void> {}
+      async populateData (): Promise<void> {}
     }
 
     return new MoviesServiceStub();
@@ -26,7 +26,7 @@ describe('movies controller', () => {
 
   interface SutTypes {
     sut: MoviesController
-    moviesServiceStub: Service
+    moviesServiceStub: IListMovieTask & IPopulateMovieTask
   }
 
   const makeSut = (): SutTypes => {
@@ -40,7 +40,7 @@ describe('movies controller', () => {
 
   test('should return 500 if movies service throws', async () => {
     const { sut, moviesServiceStub } = makeSut();
-    jest.spyOn(moviesServiceStub, 'get').mockImplementationOnce(async () => {
+    jest.spyOn(moviesServiceStub, 'movies').mockImplementationOnce(async () => {
       return await new Promise((resolve, reject) => reject(new Error()));
     });
     const httpRequest = { };
@@ -99,7 +99,7 @@ describe('movies controller', () => {
 
   test('should call Service.get', async () => {
     const { sut, moviesServiceStub } = makeSut();
-    const addSpy = jest.spyOn(moviesServiceStub, 'get');
+    const addSpy = jest.spyOn(moviesServiceStub, 'movies');
     const httpRequest = {
       params: {}
     };
@@ -109,7 +109,7 @@ describe('movies controller', () => {
 
   test('should call Service.get with correct value', async () => {
     const { sut, moviesServiceStub } = makeSut();
-    const addSpy = jest.spyOn(moviesServiceStub, 'get');
+    const addSpy = jest.spyOn(moviesServiceStub, 'movies');
     const httpRequest = {
       params: {
         offset: '1'
@@ -127,14 +127,14 @@ describe('movies controller', () => {
 
   test('should call Service.getAPI', async () => {
     const { sut, moviesServiceStub } = makeSut();
-    const addSpy = jest.spyOn(moviesServiceStub, 'getAPI');
+    const addSpy = jest.spyOn(moviesServiceStub, 'populateData');
     await sut.populateData();
     expect(addSpy).toHaveBeenCalled();
   });
 
   test('should return 500 if service.getAPI throws', async () => {
     const { sut, moviesServiceStub } = makeSut();
-    jest.spyOn(moviesServiceStub, 'getAPI').mockImplementationOnce(async () => {
+    jest.spyOn(moviesServiceStub, 'populateData').mockImplementationOnce(async () => {
       return await new Promise((resolve, reject) => reject(new Error()));
     });
     const httpResponse = await sut.populateData();

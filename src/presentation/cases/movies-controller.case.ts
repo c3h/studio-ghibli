@@ -1,14 +1,12 @@
 import { HttpRequest, HttpResponse, IListMovieCase, IPopulateMovieCase } from '$/domain';
-import { InvalidParamError } from '../errors';
-import { badRequest, noContent, ok, serverError } from '../helpers/http-helper';
-import { MoviesService } from '../services/movies';
-import {
-  Service
-} from './movies.protocols';
+import { InvalidParamError } from '../../errors';
+import { MoviesService } from '../../services/movies';
+import { badRequest, noContent, ok, serverError } from '../helpers';
+import { IListMovieTask, IPopulateMovieTask } from '../tasks';
 
 export class MoviesController implements IListMovieCase, IPopulateMovieCase {
   constructor(
-    readonly moviesService: Service = new MoviesService()
+    readonly moviesService: IListMovieTask & IPopulateMovieTask = new MoviesService()
   ) {}
 
   async movies (request: HttpRequest): Promise<HttpResponse> {
@@ -19,7 +17,7 @@ export class MoviesController implements IListMovieCase, IPopulateMovieCase {
       ) {
         return badRequest(new InvalidParamError('params'));
       }
-      const getMovies = await this.moviesService.get(request.params.offset);
+      const getMovies = await this.moviesService.movies(request.params.offset);
       return ok(getMovies);
     } catch (e) {
       return serverError();
@@ -28,7 +26,7 @@ export class MoviesController implements IListMovieCase, IPopulateMovieCase {
 
   async populateData (): Promise<HttpResponse> {
     try {
-      await this.moviesService.getAPI();
+      await this.moviesService.populateData();
       return noContent();
     } catch (e) {
       return serverError();
