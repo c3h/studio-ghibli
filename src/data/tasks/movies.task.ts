@@ -1,23 +1,23 @@
 import { Movie } from '$/domain';
-import { MoviesModel } from '$/infra';
+import { MovieRepo } from '$/infra';
 import { IListMovieTask, IPopulateMovieTask } from '$/presentation';
 import { IBulkAddMovieRepo, IListMovieRepo, IPopulateMovieRepo } from '../repos';
 
 export class MoviesTask implements IListMovieTask, IPopulateMovieTask {
   constructor(
-    readonly moviesModel:
+    readonly movieRepo:
       IListMovieRepo &
       IPopulateMovieRepo &
-      IBulkAddMovieRepo = new MoviesModel()
+      IBulkAddMovieRepo = new MovieRepo()
   ) {}
 
   async movies (offset: string = '0'): Promise<Movie[]> {
-    const getMovies = await this.moviesModel.movies(offset);
+    const getMovies = await this.movieRepo.movies(offset);
     return getMovies;
   }
 
   async populateData (): Promise<void> {
-    const result = await this.moviesModel.populateMovie();
-    await this.moviesModel.bulkAddMovie(result);
+    const result = await this.movieRepo.populateMovie();
+    await this.movieRepo.bulkAddMovie(result);
   }
 }

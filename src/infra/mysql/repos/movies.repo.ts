@@ -3,7 +3,7 @@ import { Movie } from '$/domain';
 import request from 'request-promise';
 import connection from '../connection';
 
-export class MoviesModel
+export class MovieRepo
   implements
     IListMovieRepo,
     IPopulateMovieRepo,
