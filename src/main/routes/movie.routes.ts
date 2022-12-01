@@ -1,5 +1,5 @@
+import { MoviesController } from '$/presentation';
 import { Request, Response, Router } from 'express';
-import { MoviesController } from '../../presentation/cases/movies-controller.case';
 
 const moviesRoutes = Router();
 const moviesController = new MoviesController();
