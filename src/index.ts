@@ -1,6 +1,7 @@
-import App from './app';
-import 'dotenv/config';
+import app from './app';
 
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3000;
 
-new App().start(PORT);
+const server = app.listen(PORT, () => console.log(`running at the door ${PORT}`));
+
+export default server;
