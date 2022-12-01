@@ -4,10 +4,11 @@ export interface IMoviesModel {
   original_title: string
   description: string
   release_date: string
-  pointing: string
+  rt_score: string
 }
 
 export interface Model {
   get: (offset: number) => Promise<IMoviesModel[]>
-  getAPI: () => Promise<void>
+  getAPI: () => Promise<IMoviesModel[]>
+  addMovies: (movies: IMoviesModel[]) => Promise<void>
 }
