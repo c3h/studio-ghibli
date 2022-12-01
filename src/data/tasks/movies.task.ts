@@ -3,7 +3,7 @@ import { MoviesModel } from '$/infra';
 import { IListMovieTask, IPopulateMovieTask } from '$/presentation';
 import { IBulkAddMovieRepo, IListMovieRepo, IPopulateMovieRepo } from '../repos';
 
-export class MoviesService implements IListMovieTask, IPopulateMovieTask {
+export class MoviesTask implements IListMovieTask, IPopulateMovieTask {
   constructor(
     readonly moviesModel:
       IListMovieRepo &

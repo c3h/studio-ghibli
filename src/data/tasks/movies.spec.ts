@@ -1,8 +1,8 @@
 import { Movie } from '$/domain';
 import { IBulkAddMovieRepo, IListMovieRepo, IPopulateMovieRepo } from '../repos';
-import { MoviesService } from './movies.task';
+import { MoviesTask } from './movies.task';
 
-describe('movies service', () => {
+describe('movies task', () => {
   const makeMoviesModel = ():
       IListMovieRepo &
       IPopulateMovieRepo &
@@ -35,13 +35,13 @@ describe('movies service', () => {
   };
 
   interface SutTypes {
-    sut: MoviesService
+    sut: MoviesTask
     moviesModelStub: IListMovieRepo & IPopulateMovieRepo & IBulkAddMovieRepo
   }
 
   const makeSut = (): SutTypes => {
     const moviesModelStub = makeMoviesModel();
-    const sut = new MoviesService(moviesModelStub);
+    const sut = new MoviesTask(moviesModelStub);
     return {
       sut,
       moviesModelStub

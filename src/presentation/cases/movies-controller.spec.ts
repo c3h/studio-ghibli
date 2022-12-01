@@ -4,8 +4,8 @@ import { IListMovieTask, IPopulateMovieTask } from '../tasks';
 import { MoviesController } from './movies-controller.case';
 
 describe('movies controller', () => {
-  const makeMoviesService = (): IListMovieTask & IPopulateMovieTask => {
-    class MoviesServiceStub implements IListMovieTask, IPopulateMovieTask {
+  const makeMoviesTask = (): IListMovieTask & IPopulateMovieTask => {
+    class MovieTaskStub implements IListMovieTask, IPopulateMovieTask {
       async movies (offset?: string): Promise<Movie[]> {
         const fakeMovies = [{
           id: 'valid_id',
@@ -21,26 +21,26 @@ describe('movies controller', () => {
       async populateData (): Promise<void> {}
     }
 
-    return new MoviesServiceStub();
+    return new MovieTaskStub();
   };
 
   interface SutTypes {
     sut: MoviesController
-    moviesServiceStub: IListMovieTask & IPopulateMovieTask
+    movieTaskStub: IListMovieTask & IPopulateMovieTask
   }
 
   const makeSut = (): SutTypes => {
-    const moviesServiceStub = makeMoviesService();
-    const sut = new MoviesController(moviesServiceStub);
+    const movieTaskStub = makeMoviesTask();
+    const sut = new MoviesController(movieTaskStub);
     return {
       sut,
-      moviesServiceStub
+      movieTaskStub
     };
   };
 
-  test('should return 500 if movies service throws', async () => {
-    const { sut, moviesServiceStub } = makeSut();
-    jest.spyOn(moviesServiceStub, 'movies').mockImplementationOnce(async () => {
+  test('should return 500 if movies task throws', async () => {
+    const { sut, movieTaskStub } = makeSut();
+    jest.spyOn(movieTaskStub, 'movies').mockImplementationOnce(async () => {
       return await new Promise((resolve, reject) => reject(new Error()));
     });
     const httpRequest = { };
@@ -97,9 +97,9 @@ describe('movies controller', () => {
     }]);
   });
 
-  test('should call Service.get', async () => {
-    const { sut, moviesServiceStub } = makeSut();
-    const addSpy = jest.spyOn(moviesServiceStub, 'movies');
+  test('should call Task.get', async () => {
+    const { sut, movieTaskStub } = makeSut();
+    const addSpy = jest.spyOn(movieTaskStub, 'movies');
     const httpRequest = {
       params: {}
     };
@@ -107,9 +107,9 @@ describe('movies controller', () => {
     expect(addSpy).toHaveBeenCalled();
   });
 
-  test('should call Service.get with correct value', async () => {
-    const { sut, moviesServiceStub } = makeSut();
-    const addSpy = jest.spyOn(moviesServiceStub, 'movies');
+  test('should call Task.get with correct value', async () => {
+    const { sut, movieTaskStub } = makeSut();
+    const addSpy = jest.spyOn(movieTaskStub, 'movies');
     const httpRequest = {
       params: {
         offset: '1'
@@ -125,16 +125,16 @@ describe('movies controller', () => {
     expect(httpResponse.statusCode).toBe(204);
   });
 
-  test('should call Service.getAPI', async () => {
-    const { sut, moviesServiceStub } = makeSut();
-    const addSpy = jest.spyOn(moviesServiceStub, 'populateData');
+  test('should call Task.getAPI', async () => {
+    const { sut, movieTaskStub } = makeSut();
+    const addSpy = jest.spyOn(movieTaskStub, 'populateData');
     await sut.populateData();
     expect(addSpy).toHaveBeenCalled();
   });
 
-  test('should return 500 if service.getAPI throws', async () => {
-    const { sut, moviesServiceStub } = makeSut();
-    jest.spyOn(moviesServiceStub, 'populateData').mockImplementationOnce(async () => {
+  test('should return 500 if task.getAPI throws', async () => {
+    const { sut, movieTaskStub } = makeSut();
+    jest.spyOn(movieTaskStub, 'populateData').mockImplementationOnce(async () => {
       return await new Promise((resolve, reject) => reject(new Error()));
     });
     const httpResponse = await sut.populateData();
