@@ -8,7 +8,7 @@ export interface IMoviesModel {
 }
 
 export interface Model {
-  get: (offset: number) => Promise<IMoviesModel[]>
+  get: (offset: string) => Promise<IMoviesModel[]>
   getAPI: () => Promise<IMoviesModel[]>
   addMovies: (movies: IMoviesModel[]) => Promise<void>
 }

@@ -17,14 +17,11 @@ export class MoviesController implements Controller {
     try {
       if (
         request.params.offset &&
-        parseInt(
-          request.params.offset, 10).toString() !== request.params.offset
+        parseInt(request.params.offset, 10).toString() !== request.params.offset
       ) {
         return badRequest(new InvalidParamError('params'));
       }
-      const getMovies = await this.moviesService.get(
-        parseInt((request.params.offset || '').trim(), 10)
-      );
+      const getMovies = await this.moviesService.get(request.params.offset);
       return ok(getMovies);
     } catch (e) {
       return serverError();

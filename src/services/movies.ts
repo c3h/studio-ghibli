@@ -6,7 +6,7 @@ export class MoviesService implements Service {
     readonly moviesModel: Model = new MoviesModel()
   ) {}
 
-  async get (offset: number = 0): Promise<IMoviesModel[]> {
+  async get (offset: string = '0'): Promise<IMoviesModel[]> {
     const getMovies = await this.moviesModel.get(offset);
     return getMovies;
   }

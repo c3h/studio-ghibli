@@ -1,6 +1,6 @@
 import { IMoviesModel } from './model';
 
 export interface Service {
-  get: (offset?: number) => Promise<IMoviesModel[]>
+  get: (offset?: string) => Promise<IMoviesModel[]>
   getAPI: () => Promise<void>
 }

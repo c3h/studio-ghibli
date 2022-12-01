@@ -9,11 +9,11 @@ export class MoviesModel implements Model {
     this.connection = connection;
   }
 
-  async get (offset: number): Promise<IMoviesModel[]> {
+  async get (offset: string): Promise<IMoviesModel[]> {
     const query = `
       SELECT * FROM movies
       ORDER BY original_title ASC
-      LIMIT 20 OFFSET ?
+      LIMIT 5 OFFSET ?
     `;
     const [rows] = await this.connection.execute(query, [offset]);
     const movies = rows as IMoviesModel[];

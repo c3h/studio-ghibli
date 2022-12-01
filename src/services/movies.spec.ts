@@ -13,7 +13,7 @@ describe('movies service', () => {
         rt_score: 'valid_pointing'
       }];
 
-      async get (offset?: number): Promise<IMoviesModel[]> {
+      async get (offset?: string): Promise<IMoviesModel[]> {
         return await new Promise(resolve => resolve(this.fakeMovies));
       }
 
@@ -44,7 +44,7 @@ describe('movies service', () => {
   test('should return an array of objects on success', async () => {
     const { sut } = makeSut();
     const offset = {
-      params: 1
+      params: '1'
     };
     const result = await sut.get(offset.params);
     expect(result).toEqual([{
@@ -67,7 +67,7 @@ describe('movies service', () => {
   test('should call moviesModel with correct value', async () => {
     const { sut, moviesModelStub } = makeSut();
     const addSpy = jest.spyOn(moviesModelStub, 'get');
-    const params = 1;
+    const params = '1';
     await sut.get(params);
     expect(addSpy).toHaveBeenCalledWith(params);
   });

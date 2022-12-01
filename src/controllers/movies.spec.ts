@@ -5,7 +5,7 @@ import { IMoviesModel, Service } from './movies.protocols';
 describe('movies controller', () => {
   const makeMoviesService = (): Service => {
     class MoviesServiceStub implements Service {
-      async get (offset?: number): Promise<IMoviesModel[]> {
+      async get (offset?: string): Promise<IMoviesModel[]> {
         const fakeMovies = [{
           id: 'valid_id',
           title: 'valid_title',
@@ -115,7 +115,7 @@ describe('movies controller', () => {
       }
     };
     await sut.movies(httpRequest);
-    expect(addSpy).toHaveBeenCalledWith(parseInt((httpRequest.params.offset || '').trim(), 10));
+    expect(addSpy).toHaveBeenCalledWith(httpRequest.params.offset);
   });
 
   test('should return 200 if success data API Ghibli', async () => {
