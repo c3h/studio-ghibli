@@ -1,16 +1,20 @@
+import { IBulkAddMovieRepo, IListMovieRepo, IPopulateMovieRepo } from '$/data/repos';
 import { Movie } from '$/domain';
 import request from 'request-promise';
-import { IModel } from '../protocols';
 import connection from './connection';
 
-export class MoviesModel implements IModel {
+export class MoviesModel
+  implements
+    IListMovieRepo,
+    IPopulateMovieRepo,
+    IBulkAddMovieRepo {
   private readonly connection;
 
   constructor () {
     this.connection = connection;
   }
 
-  async get (offset: string): Promise<Movie[]> {
+  async movies (offset: string): Promise<Movie[]> {
     const query = `
       SELECT * FROM movies
       ORDER BY original_title ASC
@@ -21,7 +25,7 @@ export class MoviesModel implements IModel {
     return movies;
   }
 
-  async addMovies (movies: Movie[]): Promise<void> {
+  async bulkAddMovie (movies: Movie[]): Promise<void> {
     const sql = `
       INSERT IGNORE INTO 
       movies (id, title, original_title, description, release_date, rt_score)
@@ -39,7 +43,7 @@ export class MoviesModel implements IModel {
     return result;
   }
 
-  async getAPI (): Promise<Movie[]> {
+  async populateMovie (): Promise<Movie[]> {
     const baseURL = process.env.BASE_URL;
     const url = `${baseURL}/films`;
     const result = await request.get(url, { gzip: true });

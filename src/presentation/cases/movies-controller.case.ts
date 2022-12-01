@@ -1,6 +1,6 @@
 import { HttpRequest, HttpResponse, IListMovieCase, IPopulateMovieCase } from '$/domain';
+import { MoviesService } from '../../data/tasks/movies.task';
 import { InvalidParamError } from '../../errors';
-import { MoviesService } from '../../services/movies';
 import { badRequest, noContent, ok, serverError } from '../helpers';
 import { IListMovieTask, IPopulateMovieTask } from '../tasks';
 

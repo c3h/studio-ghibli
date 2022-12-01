@@ -1,10 +1,16 @@
 import { Movie } from '$/domain';
-import { IModel } from '../protocols';
-import { MoviesService } from './movies';
+import { IBulkAddMovieRepo, IListMovieRepo, IPopulateMovieRepo } from '../repos';
+import { MoviesService } from './movies.task';
 
 describe('movies service', () => {
-  const makeMoviesModel = (): IModel => {
-    class MoviesModelStub implements IModel {
+  const makeMoviesModel = ():
+      IListMovieRepo &
+      IPopulateMovieRepo &
+      IBulkAddMovieRepo => {
+    class MoviesModelStub implements
+      IListMovieRepo,
+      IPopulateMovieRepo,
+      IBulkAddMovieRepo {
       readonly fakeMovies = [{
         id: 'valid_id',
         title: 'valid_title',
@@ -14,13 +20,13 @@ describe('movies service', () => {
         rt_score: 'valid_pointing'
       }];
 
-      async get (offset?: string): Promise<Movie[]> {
+      async movies (offset?: string): Promise<Movie[]> {
         return await new Promise(resolve => resolve(this.fakeMovies));
       }
 
-      async addMovies(movies: Movie[]): Promise<void> { }
+      async bulkAddMovie(movies: Movie[]): Promise<void> { }
 
-      async getAPI(): Promise<Movie[]> {
+      async populateMovie(): Promise<Movie[]> {
         return await new Promise(resolve => resolve(this.fakeMovies));
       }
     }
@@ -30,7 +36,7 @@ describe('movies service', () => {
 
   interface SutTypes {
     sut: MoviesService
-    moviesModelStub: IModel
+    moviesModelStub: IListMovieRepo & IPopulateMovieRepo & IBulkAddMovieRepo
   }
 
   const makeSut = (): SutTypes => {
@@ -60,14 +66,14 @@ describe('movies service', () => {
 
   test('should call moviesModel', async () => {
     const { sut, moviesModelStub } = makeSut();
-    const addSpy = jest.spyOn(moviesModelStub, 'get');
+    const addSpy = jest.spyOn(moviesModelStub, 'movies');
     await sut.movies();
     expect(addSpy).toHaveBeenCalled();
   });
 
   test('should call moviesModel with correct value', async () => {
     const { sut, moviesModelStub } = makeSut();
-    const addSpy = jest.spyOn(moviesModelStub, 'get');
+    const addSpy = jest.spyOn(moviesModelStub, 'movies');
     const params = '1';
     await sut.movies(params);
     expect(addSpy).toHaveBeenCalledWith(params);
@@ -75,7 +81,7 @@ describe('movies service', () => {
 
   test('should call moviesModel.getAPI', async () => {
     const { sut, moviesModelStub } = makeSut();
-    const addSpy = jest.spyOn(moviesModelStub, 'getAPI');
+    const addSpy = jest.spyOn(moviesModelStub, 'populateMovie');
     await sut.populateData();
     expect(addSpy).toHaveBeenCalled();
   });
