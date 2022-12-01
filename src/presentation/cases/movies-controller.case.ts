@@ -1,12 +1,15 @@
-import { HttpRequest, HttpResponse, IListMovieCase, IPopulateMovieCase } from '$/domain';
-import { MoviesService } from '../../data/tasks/movies.task';
-import { InvalidParamError } from '../../errors';
+import { MoviesService } from '$/data';
+import {
+  HttpRequest, HttpResponse, IListMovieCase, IPopulateMovieCase
+} from '$/domain';
+import { InvalidParamError } from '$/errors';
 import { badRequest, noContent, ok, serverError } from '../helpers';
 import { IListMovieTask, IPopulateMovieTask } from '../tasks';
 
 export class MoviesController implements IListMovieCase, IPopulateMovieCase {
   constructor(
-    readonly moviesService: IListMovieTask & IPopulateMovieTask = new MoviesService()
+    readonly moviesService:
+      IListMovieTask & IPopulateMovieTask = new MoviesService()
   ) {}
 
   async movies (request: HttpRequest): Promise<HttpResponse> {

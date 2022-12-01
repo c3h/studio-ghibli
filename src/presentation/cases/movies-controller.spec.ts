@@ -1,6 +1,6 @@
 import { Movie } from '$/domain';
 import { InvalidParamError, ServerError } from '$/errors';
-import { IListMovieTask, IPopulateMovieTask } from '../tasks/';
+import { IListMovieTask, IPopulateMovieTask } from '../tasks';
 import { MoviesController } from './movies-controller.case';
 
 describe('movies controller', () => {
