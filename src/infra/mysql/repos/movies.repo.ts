@@ -1,8 +1,4 @@
-import {
-  IBulkAddMovieRepo,
-  IListMovieRepo,
-  IPopulateMovieRepo
-} from '$/data/repos';
+import { IBulkAddMovieRepo, IListMovieRepo, IPopulateMovieRepo } from '$/data';
 import { Movie } from '$/domain';
 import request from 'request-promise';
 import connection from '../connection';
