@@ -59,6 +59,12 @@ CREATE TABLE movies (
 );
 ```
 
+# rotas
+
+Existem duas rotas no projeto: 
+- `/movies` : serve para acessar os filmes que se encontram no banco de forma paginada (pode se usar `/movies/:offset` para especificar a página)
+- `/populate` : serve para acessar a API do Stugio Ghibli e popular/atualizar o banco de dados
+
 # bibliotecas
 
 O projeto usa o `ESLint` para encontrar bugs, áreas potencialmente problemáticas, estilos de codificação ruins e questões de estilo.
