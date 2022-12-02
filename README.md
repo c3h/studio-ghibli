@@ -1,6 +1,6 @@
 # studio-ghibli
 
-Projeto desenvolvido para o consumo da API do Studio Ghibli, salvar os dados em um banco de dados e disponibilizar isso em um endpoint de forma paginada.
+Projeto desenvolvido para o consumo da API do Studio Ghibli, salvar os dados em um banco de dados e disponibilizar em um endpoint de forma paginada.
 
 # dependências
 
@@ -20,23 +20,23 @@ Para testar o projeto, recomendo a utilização do _postman_ ou similar.
 
 # iniciar
 
-Para a inicialização do projeto, deve-se executar _npm i_.
+Para a inicialização do projeto, deve-se executar `npm i`
 
 Após a instação dos pocates, segue a lista de comandos e a suas finalidades :
 
-- _npm run start_ : iniciar o projeto
-- _npm run dev_ : iniciar o projeto em modo de desenvolvimento
+- `npm run start` : iniciar o projeto
+- `npm run dev` : iniciar o projeto em modo de desenvolvimento
 - {
 
-  _npm run test_
+  `npm run test`
 
-  _npm run test:verbose_
+  `npm run test:verbose`
 
-  _npm run test:unit_
+  `npm run test:unit`
 
-  _npm run test:staged_
+  `npm run test:staged`
 
-  _npm run test:ci_
+  `npm run test:ci`
 
   } : comandos usados para executar os testes
 
